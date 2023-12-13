@@ -44,13 +44,45 @@ ifndef REPORT_QOR
 export REPORT_QOR = 0
 endif
 
-ifndef GZIP_BUILD_IMAGE
-export GZIP_BUILD_IMAGE = 0
+##############################################################################
+
+ifndef GEN_BIT_IMAGE
+export GEN_BIT_IMAGE = 1
+endif
+
+ifndef GEN_BIT_IMAGE_GZIP
+export GEN_BIT_IMAGE_GZIP = 0
 endif
 
 ifndef GEN_BIN_IMAGE
 export GEN_BIN_IMAGE = 0
 endif
+
+ifndef GEN_BIN_IMAGE_GZIP
+export GEN_BIN_IMAGE_GZIP = 0
+endif
+
+ifndef GEN_PDI_IMAGE
+export GEN_PDI_IMAGE = 1
+endif
+
+ifndef GEN_PDI_IMAGE_GZIP
+export GEN_PDI_IMAGE_GZIP = 0
+endif
+
+ifndef GEN_MCS_IMAGE
+export GEN_MCS_IMAGE = 1
+endif
+
+ifndef GEN_MCS_IMAGE_GZIP
+export GEN_MCS_IMAGE_GZIP = 0
+endif
+
+ifndef GEN_XSA_IMAGE
+export GEN_XSA_IMAGE = 0
+endif
+
+##############################################################################
 
 ifndef RECONFIG_CHECKPOINT
 export RECONFIG_CHECKPOINT = 0
@@ -113,7 +145,7 @@ export SIM_CARGS_VHDL = -nc -l +v2k -xlrm -kdb
 endif
 
 ifndef SIM_VCS_FLAGS
-export SIM_VCS_FLAGS = +warn=none -kdb -lca
+export SIM_VCS_FLAGS = -debug_acc+pp+dmptf +warn=none -kdb -lca
 endif
 
 ###############################################################
@@ -368,7 +400,7 @@ vcs : $(SOURCE_DEPEND)
 	@cd $(OUT_DIR); vivado -mode batch -source $(RUCKUS_DIR)/vivado/vcs.tcl
 
 ###############################################################
-#### Vivado ModelSim/Questa Simulation #################################
+#### Vivado ModelSim/Questa Simulation ########################
 ###############################################################
 .PHONY : msim
 msim : $(SOURCE_DEPEND)
