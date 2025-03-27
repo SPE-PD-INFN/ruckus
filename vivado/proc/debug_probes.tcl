@@ -75,10 +75,16 @@ proc WriteDebugProbes {ilaName {filePath ""}} {
    # Delete the last unused port
    delete_debug_port [get_debug_ports [GetCurrentProbe ${ilaName}]]
 
+   # Vivado 2024.1 (or later) requires that you overwrite synth_1 .dcp
+   # after doing the ILA probe insertion via TCL (no longer auto-detected)
+   if { [VersionCompare 2024.1] >= 0 } {
+      write_checkpoint -force $::env(SYN_DIR)/$::env(PROJECT).dcp
+
    # Check if write_debug_probes is support
-   if { [VersionCompare 2017.2] <= 0 } {
+   } elseif { [VersionCompare 2017.2] <= 0 } {
       # Write the port map file
       write_debug_probes -force ${filePath}
+
    } else {
       # Check if not empty string
       if { ${filePath} != "" } {

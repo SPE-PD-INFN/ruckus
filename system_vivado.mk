@@ -89,7 +89,7 @@ export RECONFIG_CHECKPOINT = 0
 export RECONFIG_STATIC_HASH = 0
 else
 export RECONFIG_STATIC_FILE = $(notdir $(RECONFIG_CHECKPOINT))
-export RECONFIG_STATIC_HASH = -$(shell echo '$(RECONFIG_STATIC_FILE)' | awk -F'-' '{print $$5}' )
+export RECONFIG_STATIC_HASH = $(shell echo '$(RECONFIG_STATIC_FILE)' | awk -F'-' '{print $$5}' )
 endif
 
 ifndef RECONFIG_ENDPOINT
@@ -249,6 +249,7 @@ test:
 	@echo GIT_HASH_LONG: $(GIT_HASH_LONG)
 	@echo GIT_HASH_SHORT: $(GIT_HASH_SHORT)
 	@echo IMAGENAME: $(IMAGENAME)
+	@echo BUILD_STRING: $${BUILD_STRING}
 	@echo EMBED_PROC: $(EMBED_PROC)
 	@echo EMBED_TYPE: $(EMBED_TYPE)
 	@echo EMBED_GUI: $(EMBED_GUI)
@@ -296,8 +297,8 @@ gui : $(SOURCE_DEPEND)
 ###############################################################
 #### Vivado Batch #############################################
 ###############################################################
-.PHONY : bit mcs prom
-bit mcs prom : $(SOURCE_DEPEND)
+.PHONY : bit mcs prom pdi
+bit mcs prom pdi : $(SOURCE_DEPEND)
 	$(call ACTION_HEADER,"Vivado Batch Build for .bit/.mcs")
 	@cd $(OUT_DIR); vivado -mode batch -source $(RUCKUS_DIR)/vivado/build.tcl
 
